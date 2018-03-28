@@ -96,6 +96,11 @@ So that I no longer see the modal dialog
   And I should see a single image search result
 ```
 
+## Step 4.5: Bonus
+
+Provide automated E2E testing that verifies your implementation of the stories 
+outlined above satisfy the acceptance criteria.
+
 ## Step 5: Request a Code Review
 
 When you have completed your implementation of the user stories
