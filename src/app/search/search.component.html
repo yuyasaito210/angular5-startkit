@@ -1,0 +1,50 @@
+<section class="filter-wrapper">
+  <form name="form" (ngSubmit)="search()" #f="ngForm" novalidate>
+    <div>
+      <label for="keyword">NASA Image Search</label>
+    </div>
+    <input type="text" id="keyword" name="keyword" placeholder="" [(ngModel)]="model.keyword" #keyword="ngModel" autofocus/>
+    <div *ngIf="f.submitted" class="help-block"></div>
+    <button [disabled]="loading" class="btn btn-primary">Go</button>
+  </form>
+
+  <div class="text-center">
+    <table class="table table-striped table-hover">
+      <tbody>
+        <!-- items being paged -->
+        <tr *ngFor="let item of pagedItems">
+          <td>
+            <div class="search-result-thumb-mask" *ngIf="item['images']">
+              <img class="search-result-thumb-image" alt="{{item['data'][0]['title']}}" src="{{item['images'][0]}}">
+            </div>
+          </td>
+          <td>
+            <div>
+              <a (click)="imageViewer(item['href'])">{{item['data'][0]['title']}}</a>
+            </div>
+            <div>{{item['data'][0]['date_created']}}</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- pager -->
+    <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+      <li [ngClass]="{disabled:pager.currentPage === 1}">
+          <a (click)="setPage(1)">First</a>
+      </li>
+      <li [ngClass]="{disabled:pager.currentPage === 1}">
+          <a (click)="setPage(pager.currentPage - 1)">Previous</a>
+      </li>
+      <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+          <a (click)="setPage(page)">{{page}}</a>
+      </li>
+      <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+          <a (click)="setPage(pager.currentPage + 1)">Next</a>
+      </li>
+      <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+          <a (click)="setPage(pager.totalPages)">Last</a>
+      </li>
+    </ul>
+  </div>
+</section>
