@@ -1,4 +1,4 @@
-<section class="section-search">
+<section class="section-search populated-search">
   <form name="form" (ngSubmit)="search()" #f="ngForm" novalidate>
     <div>
       <label for="keyword" class="label-text">NASA Image Search</label>
@@ -11,27 +11,22 @@
     <label class="results-stats-count">Showing {{search_results}} of {{total}} results </label>
   </div>
 
-  <div class="text-center">
-    <table class="table table-striped table-hover">
-      <tbody>
-        <!-- items being paged -->
-        <tr *ngFor="let item of pagedItems">
-          <td class="td-image">
-            <div class="search-result-thumb-mask" *ngIf="item['images']">
-              <img class="search-result-thumb-image" alt="{{item['data'][0]['title']}}" src="{{item['images'][0]}}">
-            </div>
-          </td>
-          <td class="search-result">
-            <div class="search-result-title">
-              <a (click)="imageViewer(item)">{{item['data'][0]['title']}}</a>
-            </div>
-            <div class="text-style-1">
-              {{item['data'][0]['date_created']}}
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div>
+    <!-- items being paged -->
+    <div *ngFor="let item of pagedItems" class="search-result">
+      <div class="search-result-thumb-mask" *ngIf="item['images']">
+        <a (click)="imageViewer(item)">
+          <img class="search-result-thumb-image" alt="{{item['data'][0]['title']}}" src="{{item['images'][0]}}">
+        </a>
+      </div>
+      <div class="search-result-title">
+        <a class="text-style-1" (click)="imageViewer(item)">{{item['data'][0]['title']}}</a>
+        <br />
+        <span class="text-style-2">
+          {{item['data'][0]['date_created']}}
+        </span>
+      </div>
+    </div>
 
     <!-- pager -->
     <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
