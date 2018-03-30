@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 
 import { SearchService, PagerService } from '../_services/index';
-import { NgxImageGalleryComponent, GALLERY_IMAGE, GALLERY_CONF } from "ngx-image-gallery";
+import { NgxImageGalleryComponent, GALLERY_IMAGE, GALLERY_CONF } from 'ngx-image-gallery';
 
 import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/debounceTime';
