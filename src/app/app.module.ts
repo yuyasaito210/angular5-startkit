@@ -13,14 +13,11 @@ import { AuthGuard } from './_guards/index';
 import { JwtInterceptor } from './_helpers/index';
 import { AlertService, AuthenticationService, UserService, SearchService, PagerService } from './_services/index';
 
-import { HomeComponent } from './home/index';
-
 import { AppComponent } from './app.component';
 import { routing } from './app.routing';
 
 import { LoginComponent } from './login/login.component';
 import { UserComponent } from './user/user.component';
-import { RegisterComponent } from './register/index';
 import { SearchComponent } from './search/index';
 
 
@@ -35,9 +32,7 @@ import { SearchComponent } from './search/index';
   declarations: [
     AppComponent,
     AlertComponent,
-    HomeComponent,
     LoginComponent,
-    RegisterComponent,
     SearchComponent
   ],
   providers: [
