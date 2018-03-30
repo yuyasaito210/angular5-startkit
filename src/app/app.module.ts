@@ -40,11 +40,6 @@ import { SearchComponent } from './search/index';
     AlertService,
     AuthenticationService,
     UserService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: JwtInterceptor,
-      multi: true
-    },
     SearchService,
     PagerService,
     // provider used to create fake backend
