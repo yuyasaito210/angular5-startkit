@@ -26,6 +26,7 @@ export class LoginComponent implements OnInit {
     this.authenticationService.logout();
 
     // register a fake user for test
+    this.userService.delete(1).subscribe(() => {});
     let fake_user_model = {id: 1, email: "someone@example.com", password: "password", firstName: "Some", lastName: "One"};
     this.userService.create(fake_user_model)
       .subscribe(
@@ -42,7 +43,7 @@ export class LoginComponent implements OnInit {
   login() {
     this.loading = true;
     this.authenticationService.login(this.model.email, this.model.password)
-    .subscribe(
+      .subscribe(
         data => {
             this.router.navigate([this.returnUrl]);
         },

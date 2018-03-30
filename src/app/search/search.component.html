@@ -14,9 +14,9 @@
   <div>
     <!-- items being paged -->
     <div *ngFor="let item of pagedItems" class="search-result">
-      <div class="search-result-thumb-mask" *ngIf="item['images']">
+      <div class="search-result-thumb-mask" *ngIf="pagedImages[item.index]">
         <a (click)="imageViewer(item)">
-          <img class="search-result-thumb-image" alt="{{item['data'][0]['title']}}" src="{{item['images'][0]}}">
+          <img class="search-result-thumb-image" alt="{{item['data'][0]['title']}}" src="{{pagedImages[item.index]}}">
         </a>
       </div>
       <div class="search-result-title">

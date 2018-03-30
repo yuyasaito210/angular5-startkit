@@ -1,11 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ComponentFactoryResolver } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-
 
 import { SearchService, PagerService } from '../_services/index';
 import { NgxImageGalleryComponent, GALLERY_IMAGE, GALLERY_CONF } from 'ngx-image-gallery';
 
-import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/switchMap';
@@ -25,8 +23,10 @@ export class SearchComponent implements OnInit {
   pager: any = {};
   // paged items
   pagedItems: any[] = [];
+  pagedImages: string[] = [];
   itemImages: GALLERY_IMAGE[] = [];
   openModalWindow: false;
+
 
   // get reference to gallery component
   @ViewChild(NgxImageGalleryComponent) ngxImageGallery: NgxImageGalleryComponent;
@@ -47,21 +47,19 @@ export class SearchComponent implements OnInit {
 
   ngOnInit() {
     this.itemImages = [];
+    this.pagedImages = [];
     this.route.queryParams.debounceTime(500).distinctUntilChanged()
       .subscribe(
         params => {
-          console.log(params.q);
           if (typeof params.q === 'undefined' || params.q === '') {
             return;
           }
           this.searchService.search(params.q)
             .subscribe(
               result => {
-                console.log("result: ", result);
                 this.allItems = result['collection']['items'];
                 this.total = result['collection']['metadata']['total_hits'];
                 this.search_results = this.allItems.length;
-                console.log("this: ", this);
                 // initialize to page 1
                 this.setPage(1);
               });
@@ -82,10 +80,12 @@ export class SearchComponent implements OnInit {
 
     // get pager object from service
     this.pager = this.pagerService.getPager(this.allItems.length, page, 4);
-
+    this.pagedImages = [];
     // get current page of allItems
     this.pagedItems = this.allItems.slice(this.pager.startIndex, this.pager.endIndex + 1);
     for (let item in this.pagedItems) {
+      this.pagedItems[item]['images'] = [];
+      this.pagedItems[item]['index'] = item;
       this.searchService.getImages(this.pagedItems[item]['href'])
         .subscribe(
           data => {
@@ -93,6 +93,7 @@ export class SearchComponent implements OnInit {
             console.log("item.href: ", this.pagedItems[item]['href']);
             console.log("data: ", data);
             this.pagedItems[item]['images'] = data;
+            this.pagedImages.push(data[0]);
           });
     }
   }
@@ -110,10 +111,8 @@ export class SearchComponent implements OnInit {
       return img;
     };
 
-    console.log('item: ', item);
     for (let i = 0; i < item['images'].length - 1; i++) {
       var imageUrl = item['images'][i];
-      console.log('imageUrl: ', imageUrl);
       var img   = {
         url: imageUrl,
         thumbnaiURL: imageUrl,
@@ -122,8 +121,6 @@ export class SearchComponent implements OnInit {
       }
       this.itemImages.push(img);
     }
-    console.log(this.itemImages);
-    // this.openModalWindow = true;
     this.openGallery();
   }
 
