@@ -1,5 +1,5 @@
 import { TestBed, async } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing'
+import { RouterTestingModule } from '@angular/router/testing';
 import { AlertComponent } from './_directives/index';
 import { AlertService } from './_services/index';
 import { AppComponent } from './app.component';

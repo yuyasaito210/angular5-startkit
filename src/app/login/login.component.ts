@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
 
     // register a fake user for test
     this.userService.delete(1).subscribe(() => {});
-    let fake_user_model = {id: 1, email: "someone@example.com", password: "password", firstName: "Some", lastName: "One"};
+    const fake_user_model = {id: 1, email: 'someone@example.com', password: 'password', firstName: 'Some', lastName: 'One'};
     this.userService.create(fake_user_model)
       .subscribe(
         data => {

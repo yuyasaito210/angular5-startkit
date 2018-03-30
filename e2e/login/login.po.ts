@@ -10,23 +10,23 @@ export class LoginPage {
   }
 
   login(creds: any) {
-	  var email = element(by.css('input[name="email"]'));
+    const email = element(by.css('input[name="email"]'));
     email.clear().sendKeys(creds.email);
 
-    var password =  element(by.css('input[name="password"]'));
+    const password =  element(by.css('input[name="password"]'));
     password.clear().sendKeys(creds.pwd);
 
-    var submit = element(by.css('app-login button'));
+    const submit = element(by.css('app-login button'));
     submit.click();
   }
 
   loginFail() {
-		var EC = browser.ExpectedConditions;
-		browser.wait(EC.presenceOf(element(by.css('.alert-danger'))), 3000);
+    const EC = browser.ExpectedConditions;
+    browser.wait(EC.presenceOf(element(by.css('.alert-danger'))), 3000);
   }
 
   loginSuccess() {
-	  var EC = browser.ExpectedConditions;
-		browser.wait(EC.urlContains('/search'), 2000);
+    const EC = browser.ExpectedConditions;
+    browser.wait(EC.urlContains('/search'), 2000);
   }
 }

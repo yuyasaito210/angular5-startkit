@@ -83,15 +83,15 @@ export class SearchComponent implements OnInit {
     this.pagedImages = [];
     // get current page of allItems
     this.pagedItems = this.allItems.slice(this.pager.startIndex, this.pager.endIndex + 1);
-    for (let item in this.pagedItems) {
+    for (const item in this.pagedItems) {
       this.pagedItems[item]['images'] = [];
       this.pagedItems[item]['index'] = item;
       this.searchService.getImages(this.pagedItems[item]['href'])
         .subscribe(
           data => {
-            console.log("item: ", item);
-            console.log("item.href: ", this.pagedItems[item]['href']);
-            console.log("data: ", data);
+            console.log('item: ', item);
+            console.log('item.href: ', this.pagedItems[item]['href']);
+            console.log('data: ', data);
             this.pagedItems[item]['images'] = data;
             this.pagedImages.push(data[0]);
           });
@@ -100,25 +100,15 @@ export class SearchComponent implements OnInit {
 
   imageViewer(item: any = {}) {
     this.itemImages = [];
-    // Image factory
-    var createImage = function(src, title) {
-      var img   = {
-        url: src,
-        thumbnaiURL: src,
-        altText: title,
-        title: title
-      }
-      return img;
-    };
 
     for (let i = 0; i < item['images'].length - 1; i++) {
-      var imageUrl = item['images'][i];
-      var img   = {
+      const imageUrl = item['images'][i];
+      const img = {
         url: imageUrl,
         thumbnaiURL: imageUrl,
         altText: imageUrl,
         title: imageUrl
-      }
+      };
       this.itemImages.push(img);
     }
     this.openGallery();
@@ -143,27 +133,27 @@ export class SearchComponent implements OnInit {
   // EVENTS
   // callback on gallery opened
   galleryOpened(index) {
-    console.info('Gallery opened at index ', index);
+    console.log('Gallery opened at index ', index);
   }
 
   // callback on gallery closed
   galleryClosed() {
-    console.info('Gallery closed.');
+    console.log('Gallery closed.');
   }
 
   // callback on gallery image clicked
   galleryImageClicked(index) {
-    console.info('Gallery image clicked with index ', index);
+    console.log('Gallery image clicked with index ', index);
   }
 
   // callback on gallery image changed
   galleryImageChanged(index) {
-    console.info('Gallery image changed to index ', index);
+    console.log('Gallery image changed to index ', index);
   }
 
   // callback on user clicked delete button
   deleteImage(index) {
-    console.info('Delete image at index ', index);
+    console.log('Delete image at index ', index);
   }
 
 }
@@ -172,7 +162,7 @@ export class SearchComponent implements OnInit {
 export interface GALLERY_CONF {
   imageBorderRadius?: string; // css border radius of image (default 3px)
   imageOffset?: string; // add gap between image and it's container (default 20px)
-  imagePointer? :boolean; // show a pointer on image, should be true when handling onImageClick event (default false)
+  imagePointer?: boolean; // show a pointer on image, should be true when handling onImageClick event (default false)
   showDeleteControl?: boolean; // show image delete icon (default false)
   showCloseControl?: boolean; // show gallery close icon (default true)
   showExtUrlControl?: boolean; // show image external url icon (default true)
