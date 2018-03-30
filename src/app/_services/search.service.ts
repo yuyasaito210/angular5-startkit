@@ -14,7 +14,7 @@ export class SearchService {
   ) { }
 
   search(query: string) {
-    if (typeof query !== 'undefined') {
+    if (typeof query === 'undefined') {
       query = '';
     }
     let _URL = this.baseUrl + query;

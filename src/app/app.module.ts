@@ -1,14 +1,11 @@
 import { NgModule } from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 // used to create fake backend
 import { fakeBackendProvider } from './_helpers/index';
 
-import 'hammerjs';
-import 'mousetrap';
-import { ModalGalleryModule } from 'angular-modal-gallery';
 import { NgxImageGalleryModule } from 'ngx-image-gallery';
 
 import { AlertComponent } from './_directives/index';
@@ -26,15 +23,12 @@ import { UserComponent } from './user/user.component';
 import { RegisterComponent } from './register/index';
 import { SearchComponent } from './search/index';
 
-// import { LoginComponent } from './login/index';
-
 
 @NgModule({
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    ModalGalleryModule.forRoot(),
     NgxImageGalleryModule,
     routing
   ],

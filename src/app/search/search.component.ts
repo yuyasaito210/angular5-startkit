@@ -38,22 +38,6 @@ export class SearchComponent implements OnInit {
     showImageTitle: false,
   };
 
-  // gallery images
-  // images: GALLERY_IMAGE[] = [
-  //   {
-  //     url: "https://images.pexels.com/photos/669013/pexels-photo-669013.jpeg?w=1260",
-  //     altText: 'woman-in-black-blazer-holding-blue-cup',
-  //     title: 'woman-in-black-blazer-holding-blue-cup',
-  //     thumbnailUrl: "https://images.pexels.com/photos/669013/pexels-photo-669013.jpeg?w=60"
-  //   },
-  //   {
-  //     url: "https://images.pexels.com/photos/669006/pexels-photo-669006.jpeg?w=1260",
-  //     altText: 'two-woman-standing-on-the-ground-and-staring-at-the-mountain',
-  //     extUrl: 'https://www.pexels.com/photo/two-woman-standing-on-the-ground-and-staring-at-the-mountain-669006/',
-  //     thumbnailUrl: "https://images.pexels.com/photos/669006/pexels-photo-669006.jpeg?w=60"
-  //   },
-  // ];
-
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -66,8 +50,10 @@ export class SearchComponent implements OnInit {
     this.route.queryParams.debounceTime(500).distinctUntilChanged()
       .subscribe(
         params => {
-
-          console.log("params.q: ", params.q);
+          console.log(params.q);
+          if (typeof params.q === 'undefined' || params.q === '') {
+            return;
+          }
           this.searchService.search(params.q)
             .subscribe(
               result => {
@@ -83,6 +69,9 @@ export class SearchComponent implements OnInit {
   }
 
   search() {
+    if (typeof this.model.keyword === 'undefined') {
+      this.model.keyword = '';
+    }
     this.router.navigateByUrl(`/search?q=${this.model.keyword}`);
   }
 
@@ -153,16 +142,6 @@ export class SearchComponent implements OnInit {
   newImage(index: number = 0) {
     this.ngxImageGallery.setActiveImage(index);
   }
-
-  // // next image in gallery
-  // nextImage(index: number = 0) {
-  //   this.ngxImageGallery.next(index);
-  // }
-  //
-  // // prev image in gallery
-  // prevImage(index: number = 0) {
-  //   this.ngxImageGallery.prev(index);
-  // }
 
   // EVENTS
   // callback on gallery opened

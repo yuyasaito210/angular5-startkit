@@ -4,8 +4,7 @@
       <label for="keyword" class="label-text">NASA Image Search</label>
     </div>
     <input type="text" id="keyword" name="keyword" placeholder="" class="text-input-rectangle" [(ngModel)]="model.keyword" #keyword="ngModel" autofocus/>
-    <div *ngIf="f.submitted" class="help-block"></div>
-    <button [disabled]="loading" class="btn btn-primary go-button-rectangle">Go</button>
+    <button [disabled]="loading" class="go-button-rectangle">Go</button>
   </form>
 
   <div class="results-stats-count" *ngIf="total>0">
@@ -54,9 +53,7 @@
     </ul>
   </div>
 
-
   <div>
-    <!-- <ks-modal-gallery [modalImages]="itemImages"></ks-modal-gallery> -->
     <ngx-image-gallery
     [images]="itemImages"
     [conf]="conf"
@@ -66,5 +63,5 @@
     (onImageChange)="galleryImageChanged($event)"
     (onDelete)="deleteImage($event)"
     ></ngx-image-gallery>
-</div>
+  </div>
 </section>
