@@ -18,11 +18,13 @@
               <img class="search-result-thumb-image" alt="{{item['data'][0]['title']}}" src="{{item['images'][0]}}">
             </div>
           </td>
-          <td>
-            <div>
-              <a (click)="imageViewer(item['href'])">{{item['data'][0]['title']}}</a>
+          <td class="search-result">
+            <div class="search-result-title">
+              <a (click)="imageViewer(item)">{{item['data'][0]['title']}}</a>
             </div>
-            <div>{{item['data'][0]['date_created']}}</div>
+            <div class="text-style-1">
+              {{item['data'][0]['date_created']}}
+            </div>
           </td>
         </tr>
       </tbody>
@@ -47,4 +49,17 @@
       </li>
     </ul>
   </div>
+
+  <div>
+    <!-- <ks-modal-gallery [modalImages]="itemImages"></ks-modal-gallery> -->
+    <ngx-image-gallery
+    [images]="itemImages"
+    [conf]="conf"
+    (onOpen)="galleryOpened($event)"
+    (onClose)="galleryClosed()"
+    (onImageClicked)="galleryImageClicked($event)"
+    (onImageChange)="galleryImageChanged($event)"
+    (onDelete)="deleteImage($event)"
+    ></ngx-image-gallery>
+</div>
 </section>

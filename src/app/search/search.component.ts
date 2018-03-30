@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
+
 import { SearchService, PagerService } from '../_services/index';
+import { NgxImageGalleryComponent, GALLERY_IMAGE, GALLERY_CONF } from "ngx-image-gallery";
 
 import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/debounceTime';
@@ -13,6 +15,7 @@ import 'rxjs/add/operator/switchMap';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css']
 })
+
 export class SearchComponent implements OnInit {
   model: any = {};
   allItems: any[] = [];
@@ -21,7 +24,35 @@ export class SearchComponent implements OnInit {
   // pager object
   pager: any = {};
   // paged items
-  pagedItems: any[];
+  pagedItems: any[] = [];
+  itemImages: GALLERY_IMAGE[] = [];
+  openModalWindow: false;
+
+  // get reference to gallery component
+  @ViewChild(NgxImageGalleryComponent) ngxImageGallery: NgxImageGalleryComponent;
+
+  // gallery configuration
+  conf: GALLERY_CONF = {
+    imageOffset: '0px',
+    showDeleteControl: false,
+    showImageTitle: false,
+  };
+
+  // gallery images
+  // images: GALLERY_IMAGE[] = [
+  //   {
+  //     url: "https://images.pexels.com/photos/669013/pexels-photo-669013.jpeg?w=1260",
+  //     altText: 'woman-in-black-blazer-holding-blue-cup',
+  //     title: 'woman-in-black-blazer-holding-blue-cup',
+  //     thumbnailUrl: "https://images.pexels.com/photos/669013/pexels-photo-669013.jpeg?w=60"
+  //   },
+  //   {
+  //     url: "https://images.pexels.com/photos/669006/pexels-photo-669006.jpeg?w=1260",
+  //     altText: 'two-woman-standing-on-the-ground-and-staring-at-the-mountain',
+  //     extUrl: 'https://www.pexels.com/photo/two-woman-standing-on-the-ground-and-staring-at-the-mountain-669006/',
+  //     thumbnailUrl: "https://images.pexels.com/photos/669006/pexels-photo-669006.jpeg?w=60"
+  //   },
+  // ];
 
   constructor(
     private route: ActivatedRoute,
@@ -31,6 +62,7 @@ export class SearchComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.itemImages = [];
     this.route.queryParams.debounceTime(500).distinctUntilChanged()
       .subscribe(
         params => {
@@ -51,7 +83,6 @@ export class SearchComponent implements OnInit {
   }
 
   search() {
-    console.log(this.model.keyword);
     this.router.navigateByUrl(`/search?q=${this.model.keyword}`);
   }
 
@@ -61,11 +92,10 @@ export class SearchComponent implements OnInit {
     }
 
     // get pager object from service
-    this.pager = this.pagerService.getPager(this.allItems.length, page);
+    this.pager = this.pagerService.getPager(this.allItems.length, page, 4);
 
     // get current page of allItems
     this.pagedItems = this.allItems.slice(this.pager.startIndex, this.pager.endIndex + 1);
-    console.log("this.pagedItems: ", this.pagedItems);
     for (let item in this.pagedItems) {
       this.searchService.getImages(this.pagedItems[item]['href'])
         .subscribe(
@@ -78,8 +108,116 @@ export class SearchComponent implements OnInit {
     }
   }
 
-  imageViewer(imageUrls: string) {
+  imageViewer(item: any = {}) {
+    this.itemImages = [];
+    // Image factory
+    var createImage = function(src, title) {
+      var img   = {
+        url: src,
+        thumbnaiURL: src,
+        altText: title,
+        title: title
+      }
+      return img;
+    };
 
+    console.log('item: ', item);
+    for (let i = 0; i < item['images'].length - 1; i++) {
+      var imageUrl = item['images'][i];
+      console.log('imageUrl: ', imageUrl);
+      var img   = {
+        url: imageUrl,
+        thumbnaiURL: imageUrl,
+        altText: imageUrl,
+        title: imageUrl
+      }
+      this.itemImages.push(img);
+    }
+    console.log(this.itemImages);
+    // this.openModalWindow = true;
+    this.openGallery();
   }
 
+  // METHODS
+  // open gallery
+  openGallery(index: number = 0) {
+    this.ngxImageGallery.open(index);
+  }
+
+  // close gallery
+  closeGallery() {
+    this.ngxImageGallery.close();
+  }
+
+  // set new active(visible) image in gallery
+  newImage(index: number = 0) {
+    this.ngxImageGallery.setActiveImage(index);
+  }
+
+  // // next image in gallery
+  // nextImage(index: number = 0) {
+  //   this.ngxImageGallery.next(index);
+  // }
+  //
+  // // prev image in gallery
+  // prevImage(index: number = 0) {
+  //   this.ngxImageGallery.prev(index);
+  // }
+
+  // EVENTS
+  // callback on gallery opened
+  galleryOpened(index) {
+    console.info('Gallery opened at index ', index);
+  }
+
+  // callback on gallery closed
+  galleryClosed() {
+    console.info('Gallery closed.');
+  }
+
+  // callback on gallery image clicked
+  galleryImageClicked(index) {
+    console.info('Gallery image clicked with index ', index);
+  }
+
+  // callback on gallery image changed
+  galleryImageChanged(index) {
+    console.info('Gallery image changed to index ', index);
+  }
+
+  // callback on user clicked delete button
+  deleteImage(index) {
+    console.info('Delete image at index ', index);
+  }
+
+}
+
+// gallery configuration
+export interface GALLERY_CONF {
+  imageBorderRadius?: string; // css border radius of image (default 3px)
+  imageOffset?: string; // add gap between image and it's container (default 20px)
+  imagePointer? :boolean; // show a pointer on image, should be true when handling onImageClick event (default false)
+  showDeleteControl?: boolean; // show image delete icon (default false)
+  showCloseControl?: boolean; // show gallery close icon (default true)
+  showExtUrlControl?: boolean; // show image external url icon (default true)
+  showImageTitle?: boolean; // show image title text (default true)
+  showThumbnails?: boolean; // show thumbnails (default true)
+  closeOnEsc?: boolean; // close gallery on `Esc` button press (default true)
+  reactToKeyboard?: boolean; // change image on keyboard arrow press (default true)
+  reactToMouseWheel?: boolean; // change image on mouse wheel scroll (default true)
+  reactToRightClick?: boolean; // disable right click on gallery (default false)
+  thumbnailSize?: number; // thumbnail size (default 30)
+  backdropColor?: string; // gallery backdrop (background) color (default rgba(13,13,14,0.85))
+  inline?: boolean; // make gallery inline (default false)
+  showArrows?: boolean; // show prev / next arrows (default true)
+}
+
+// gallery image
+export interface GALLERY_IMAGE {
+  url: string; // url of the image
+  thumbnailUrl?: string; // thumbnail url (recommended), if not present, gallery will use `url` property to get thumbnail image.
+  altText?: string; // alt text for image
+  title?: string; // title of the image
+  extUrl?: string; // external url of image
+  extUrlTarget?: string; // external url target e.g. '_blank', '_self' etc.
 }
