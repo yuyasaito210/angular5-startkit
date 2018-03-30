@@ -1,6 +1,6 @@
 import { SearchPage } from './search.po';
 
-describe('coding-test-aaron-little App', () => {
+describe('coding-test-aaron-little SearchPage', () => {
   let page: SearchPage;
 
   beforeEach(() => {

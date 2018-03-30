@@ -1,6 +1,6 @@
 import { LoginPage } from './login.po';
 
-describe('coding-test-aaron-little App', () => {
+describe('coding-test-aaron-little LoginPage', () => {
   let page: LoginPage;
 
   beforeEach(() => {
