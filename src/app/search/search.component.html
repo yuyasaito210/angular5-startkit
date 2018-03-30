@@ -1,19 +1,23 @@
-<section class="filter-wrapper">
+<section class="section-search">
   <form name="form" (ngSubmit)="search()" #f="ngForm" novalidate>
     <div>
-      <label for="keyword">NASA Image Search</label>
+      <label for="keyword" class="label-text">NASA Image Search</label>
     </div>
-    <input type="text" id="keyword" name="keyword" placeholder="" [(ngModel)]="model.keyword" #keyword="ngModel" autofocus/>
+    <input type="text" id="keyword" name="keyword" placeholder="" class="text-input-rectangle" [(ngModel)]="model.keyword" #keyword="ngModel" autofocus/>
     <div *ngIf="f.submitted" class="help-block"></div>
-    <button [disabled]="loading" class="btn btn-primary">Go</button>
+    <button [disabled]="loading" class="btn btn-primary go-button-rectangle">Go</button>
   </form>
+
+  <div class="results-stats-count" *ngIf="total>0">
+    <label class="results-stats-count">Showing {{search_results}} of {{total}} results </label>
+  </div>
 
   <div class="text-center">
     <table class="table table-striped table-hover">
       <tbody>
         <!-- items being paged -->
         <tr *ngFor="let item of pagedItems">
-          <td>
+          <td class="td-image">
             <div class="search-result-thumb-mask" *ngIf="item['images']">
               <img class="search-result-thumb-image" alt="{{item['data'][0]['title']}}" src="{{item['images'][0]}}">
             </div>
@@ -49,6 +53,7 @@
       </li>
     </ul>
   </div>
+
 
   <div>
     <!-- <ks-modal-gallery [modalImages]="itemImages"></ks-modal-gallery> -->
