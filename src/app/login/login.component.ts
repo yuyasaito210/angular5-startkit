@@ -28,7 +28,13 @@ export class LoginComponent implements OnInit {
 
     // register a fake user for test
     let fake_user_model = {id: 1, email: "someone@example.com", password: "password", firstName: "Some", lastName: "One"};
-    this.userService.create(fake_user_model);
+    this.userService.create(fake_user_model)
+      .subscribe(
+        data => {
+        },
+        error => {
+          this.loading = false;
+      });
 
     // get return url from route parameters or default to '/'
     this.returnUrl = '/search';
