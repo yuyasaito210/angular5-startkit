@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { AlertService, AuthenticationService } from '../_services/index';
+import { AlertService, AuthenticationService, UserService } from '../_services/index';
 
 
 @Component({
@@ -19,11 +19,16 @@ export class LoginComponent implements OnInit {
   private route: ActivatedRoute,
   private router: Router,
   private authenticationService: AuthenticationService,
+  private userService: UserService,
   private alertService: AlertService) { }
 
   ngOnInit() {
     // reset login status
     this.authenticationService.logout();
+
+    // register a fake user for test
+    let fake_user_model = {id: 1, email: "someone@example.com", password: "password", firstName: "Some", lastName: "One"};
+    this.userService.create(fake_user_model);
 
     // get return url from route parameters or default to '/'
     this.returnUrl = '/search';
@@ -31,11 +36,14 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.loading = true;
-    if (this.authenticationService.fake_signin(this.model.email, this.model.password)) {
-      this.router.navigate([this.returnUrl]);
-    } else {
-      this.alertService.error("user email or password is incorrect");
-      this.loading = false;
-    }
+    this.authenticationService.login(this.model.email, this.model.password)
+    .subscribe(
+        data => {
+            this.router.navigate([this.returnUrl]);
+        },
+        error => {
+            this.alertService.error(error);
+            this.loading = false;
+        });
   }
 }

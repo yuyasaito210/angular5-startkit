@@ -7,14 +7,6 @@ import 'rxjs/add/operator/map'
 export class AuthenticationService {
   constructor(private http: HttpClient) { }
 
-  fake_signin(email: string, password: string) {
-    if (email === "someone@example.com" && password === "password") {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   login(email: string, password: string) {
     return this.http.post<any>('/api/authenticate', { email: email, password: password })
       .map(user => {
