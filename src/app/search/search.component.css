@@ -1,0 +1,128 @@
+.section-search {
+  margin: auto;
+}
+
+.label-text {
+  width: 400px;
+  height: 22px;
+  object-fit: contain;
+  font-family: Helvetica;
+  font-size: 18px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #000000;
+}
+
+.text-input-rectangle {
+  width: 620px;
+  height: 58px;
+  border-radius: 3px;
+  border: solid 2px #cccccc;
+  font-family: Helvetica;
+  font-size: 18px;
+  padding-left: 12px;
+  color: #000000;
+}
+
+.go-button-rectangle {
+  width: 60px;
+  height: 60px;
+  background-color: #4a90e2;
+  border-color: #2e6da4;
+  border-radius: 4px;
+  font-family: Helvetica;
+  font-size: 18px;
+  font-weight: 400;
+  text-align: center;
+  color: white;
+}
+
+.results-stats-count {
+  width: 688px;
+  object-fit: contain;
+  font-family: Helvetica;
+  font-size: 14px;
+  font-weight: normal;
+  font-style: oblique;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: black;
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.populated-search {
+  width: 768px;
+  height: 1024px;
+}
+
+.search-result-thumb-mask {
+  width: 138px;
+  height: 138px;
+  color: #4a90e2;
+  margin-right: 20px;
+}
+
+.search-result-thumb-image {
+  width: 138px;
+  height: 138px;
+  border-radius: 50%;
+  border: 2px solid #4a90e2;
+}
+
+.search-result {
+  width: 366px;
+  height: 138px;
+  text-align: left;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.search-result a {
+  cursor: pointer;
+}
+
+.search-result-title {
+  width: 196px;
+  height: 35px;
+  font-family: Helvetica;
+  font-size: 12px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: black;
+}
+.search-result-title .text-style-1 {
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 1.71;
+  text-align: left;
+  color: #4a90e2;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+#ImageBox {
+  margin-top:0.25em;
+}
+#ImageBox {
+  -webkit-transition:all linear 0.5s;
+  transition:all linear 0.5s;
+  opacity:1;
+}
+#ImageBox.ng-hide-add, #ImageBox.ng-hide-remove {
+  display:block!important;
+}
+#ImageBox.ng-hide {
+  opacity:0;
+}

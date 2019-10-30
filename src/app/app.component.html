@@ -1,0 +1,10 @@
+<!-- main app container -->
+<div class="menu-logout" *ngIf="loggedin()">
+  <a [routerLink]="['/login']">Logout</a>
+</div>
+<div class="jumbotron sign-jumbotron">
+  <div class="container">
+    <app-alert></app-alert>
+    <router-outlet></router-outlet>
+  </div>
+</div>

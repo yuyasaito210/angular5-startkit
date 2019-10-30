@@ -1,0 +1,63 @@
+<section class="section-search populated-search">
+  <form name="form" (ngSubmit)="search()" #f="ngForm" novalidate>
+    <div>
+      <label for="keyword" class="label-text">NASA Image Search</label>
+    </div>
+    <input type="text" id="keyword" name="keyword" placeholder="Please enter your keyword. e.g. Jupiter" class="text-input-rectangle"
+      [(ngModel)]="model.keyword" #keyword="ngModel" autofocus/>
+    <button [disabled]="loading" class="go-button-rectangle">Go</button>
+  </form>
+
+  <div class="results-stats-count" *ngIf="total>0">
+    <label class="results-stats-count">Showing {{search_results}} of {{total}} results </label>
+  </div>
+
+  <div>
+    <!-- items being paged -->
+    <div *ngFor="let item of pagedItems" class="search-result">
+      <div class="search-result-thumb-mask" *ngIf="pagedImages[item.index]">
+        <a (click)="imageViewer(item)">
+          <img class="search-result-thumb-image" alt="{{item['data'][0]['title']}}" src="{{pagedImages[item.index]}}">
+        </a>
+      </div>
+      <div class="search-result-title">
+        <a class="text-style-1" (click)="imageViewer(item)">{{item['data'][0]['title']}}</a>
+        <br />
+        <span class="text-style-2">
+          {{item['data'][0]['date_created']}}
+        </span>
+      </div>
+    </div>
+
+    <!-- pager -->
+    <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+      <li [ngClass]="{disabled:pager.currentPage === 1}">
+          <a (click)="setPage(1)">First</a>
+      </li>
+      <li [ngClass]="{disabled:pager.currentPage === 1}">
+          <a (click)="setPage(pager.currentPage - 1)">Previous</a>
+      </li>
+      <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+          <a (click)="setPage(page)">{{page}}</a>
+      </li>
+      <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+          <a (click)="setPage(pager.currentPage + 1)">Next</a>
+      </li>
+      <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+          <a (click)="setPage(pager.totalPages)">Last</a>
+      </li>
+    </ul>
+  </div>
+
+  <div>
+    <ngx-image-gallery
+    [images]="itemImages"
+    [conf]="conf"
+    (onOpen)="galleryOpened($event)"
+    (onClose)="galleryClosed()"
+    (onImageClicked)="galleryImageClicked($event)"
+    (onImageChange)="galleryImageChanged($event)"
+    (onDelete)="deleteImage($event)"
+    ></ngx-image-gallery>
+  </div>
+</section>
