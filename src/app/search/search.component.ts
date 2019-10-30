@@ -27,7 +27,6 @@ export class SearchComponent implements OnInit {
   itemImages: GALLERY_IMAGE[] = [];
   openModalWindow: false;
 
-
   // get reference to gallery component
   @ViewChild(NgxImageGalleryComponent) ngxImageGallery: NgxImageGalleryComponent;
 
@@ -83,19 +82,17 @@ export class SearchComponent implements OnInit {
     this.pagedImages = [];
     // get current page of allItems
     this.pagedItems = this.allItems.slice(this.pager.startIndex, this.pager.endIndex + 1);
-    for (const item in this.pagedItems) {
-      this.pagedItems[item]['images'] = [];
-      this.pagedItems[item]['index'] = item;
-      this.searchService.getImages(this.pagedItems[item]['href'])
+    this.pagedItems.forEach((item, index) => {
+      item['images'] = [];
+      item['index'] = index;
+      this.searchService.getImages(item['href'])
         .subscribe(
           data => {
-            console.log('item: ', item);
-            console.log('item.href: ', this.pagedItems[item]['href']);
-            console.log('data: ', data);
-            this.pagedItems[item]['images'] = data;
+            setTimeout(() => this.showDelay(), 100);
+            item['images'] = data;
             this.pagedImages.push(data[0]);
           });
-    }
+    });
   }
 
   imageViewer(item: any = {}) {
@@ -156,6 +153,10 @@ export class SearchComponent implements OnInit {
     console.log('Delete image at index ', index);
   }
 
+  // delayed
+  private showDelay() {
+    // nothing
+  }
 }
 
 // gallery configuration

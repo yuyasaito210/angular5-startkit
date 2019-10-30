@@ -16,10 +16,11 @@ export class LoginComponent implements OnInit {
   returnUrl: string;
 
   constructor(
-  private router: Router,
-  private authenticationService: AuthenticationService,
-  private userService: UserService,
-  private alertService: AlertService) { }
+    private router: Router,
+    private authenticationService: AuthenticationService,
+    private userService: UserService,
+    private alertService: AlertService
+  ) { }
 
   ngOnInit() {
     // reset login status

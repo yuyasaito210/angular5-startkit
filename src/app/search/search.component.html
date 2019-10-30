@@ -3,7 +3,8 @@
     <div>
       <label for="keyword" class="label-text">NASA Image Search</label>
     </div>
-    <input type="text" id="keyword" name="keyword" placeholder="" class="text-input-rectangle" [(ngModel)]="model.keyword" #keyword="ngModel" autofocus/>
+    <input type="text" id="keyword" name="keyword" placeholder="Please enter your keyword. e.g. Jupiter" class="text-input-rectangle"
+      [(ngModel)]="model.keyword" #keyword="ngModel" autofocus/>
     <button [disabled]="loading" class="go-button-rectangle">Go</button>
   </form>
 

@@ -62,8 +62,10 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         if (request.headers.get('Authorization') === 'Bearer fake-jwt-token') {
           // find user by id in users array
           const urlParts = request.url.split('/');
-          const id = parseInt(urlParts[urlParts.length - 1]);
-          const matchedUsers = users.filter(user => { return user.id === id; });
+          const id = parseInt(urlParts[urlParts.length - 1], 10);
+          const matchedUsers = users.filter(matchedUser => {
+            return matchedUser.id === id;
+          });
           const user = matchedUsers.length ? matchedUsers[0] : null;
 
           return Observable.of(new HttpResponse({ status: 200, body: user }));
@@ -79,7 +81,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         const newUser = request.body;
 
         // validation
-        const duplicateUser = users.filter(user => { return user.email === newUser.email; }).length;
+        const duplicateUser = users.filter(user => {
+          return user.email === newUser.email;
+        }).length;
         if (duplicateUser) {
           return Observable.throw('email "' + newUser.email + '" is already taken');
         }
@@ -99,7 +103,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         if (request.headers.get('Authorization') === 'Bearer fake-jwt-token') {
           // find user by id in users array
           const urlParts = request.url.split('/');
-          const id = parseInt(urlParts[urlParts.length - 1]);
+          const id = parseInt(urlParts[urlParts.length - 1], 10);
           for (let i = 0; i < users.length; i++) {
             const user = users[i];
             if (user.id === id) {
@@ -124,7 +128,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     })
 
     // call materialize and dematerialize to ensure delay even if an error is
-    //thrown (https://github.com/Reactive-Extensions/RxJS/issues/648)
+    // thrown (https://github.com/Reactive-Extensions/RxJS/issues/648)
     .materialize()
     .delay(500)
     .dematerialize();
